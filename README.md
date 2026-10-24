@@ -37,11 +37,48 @@ Job diário no PC do trabalho: baixa as séries, gera o JSON, monta o payload
 público enxuto (piso R$ 50 mil + top 100 empenhos por entidade), valida e faz
 commit/push. Se o portal falhar, a última versão boa permanece no ar.
 
-## Instalação / operação no PC do trabalho
+## Clone no PC do trabalho (passo a passo)
 
-O motor e o guia de instalação ficam no repositório privado
-[tesouraria-motor](https://github.com/angelojordy-svg/tesouraria-motor) (acesso
-restrito). Clone-o no PC do trabalho e siga o `README`/`SKILL-tesouraria.md`.
+1. Instale **Git for Windows** e **Python 3.12** (marque "Add python.exe to PATH").
+2. Abra o PowerShell e confira:
+   ```powershell
+   git --version
+   python --version
+   ```
+3. Crie a pasta e configure o Git:
+   ```powershell
+   mkdir C:\Tesouraria
+   git config --global user.name "Seu Nome"
+   git config --global user.email "seu@email"
+   ```
+4. Clone o motor (privado; use a conta que tem acesso):
+   ```powershell
+   git clone https://github.com/angelojordy-svg/tesouraria-motor.git C:\Tesouraria\motor
+   ```
+5. Clone este site (público):
+   ```powershell
+   git clone https://github.com/angelojordy-svg/tesouraria-parauapebas.git C:\Tesouraria\tesouraria-parauapebas
+   ```
+6. Configure:
+   ```powershell
+   cd C:\Tesouraria\motor
+   copy config.example.json config.json
+   notepad config.json
+   ```
+   Confira `"repo": "C:\\Tesouraria\\tesouraria-parauapebas"`.
+7. Teste e publique:
+   ```powershell
+   verificar_ambiente.bat
+   rodar_tesouraria.bat --sem-publicar
+   rodar_tesouraria.bat
+   ```
+8. Agende às 10:00:
+   ```powershell
+   agendar_tarefa.bat
+   ```
+9. Desative a publicação na casa (um dono por vez).
+
+Guia detalhado: `COMO-CLONAR-NO-TRABALHO.txt` e `SKILL-tesouraria.md` no repo privado.
 
 ## Painel Fiscal
 
