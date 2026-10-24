@@ -29,7 +29,7 @@ dados/meta.json
 
 O `index.html` e o payload são **gerados**. Não edite o site publicado à mão: a
 próxima atualização sobrescreve. A fonte do gerador e o motor ficam no projeto
-privado (`Resumo PDF`), no PC do trabalho.
+privado (`Resumo PDF`); a atualização diária roda no PC do trabalho.
 
 ## Atualização
 
