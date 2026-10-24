@@ -1,0 +1,115 @@
+{
+  "titulo": "Tesouraria — Parauapebas",
+  "periodo": {
+    "ano": 2026,
+    "inicio": "01/01/2026",
+    "fim": "17/10/2026"
+  },
+  "dados_ate": "16/10/2026",
+  "gerado_em": "2026-10-24T17:57:50",
+  "publico": {
+    "piso": 50000.0,
+    "top_empenhos": 100,
+    "credores_total": 5748,
+    "empenhos_total": 25665
+  },
+  "consolidado": {
+    "kpis": {
+      "empenhado": 2134158675.08,
+      "liquidado": 1869984965.32,
+      "pago": 1779955450.63,
+      "a_pagar": 90029514.69,
+      "em_aberto": 90029514.69,
+      "nao_liquidado": 264173709.76,
+      "receita": 1865594732.41,
+      "pago_caixa": 1849780348.18,
+      "caixa": 66476257.37,
+      "pct_exec_empenho": 83.4
+    },
+    "mensal": [
+      {
+        "mes": "2026-01",
+        "empenhado": 480393520.49,
+        "liquidado": 143243413.38,
+        "pago": 164173300.59,
+        "receita": 227376862.78,
+        "caixa": 66528758.07
+      },
+      {
+        "mes": "2026-02",
+        "empenhado": 252349858.16,
+        "liquidado": 223632713.95,
+        "pago": 215550137.51,
+        "receita": 196991608.85,
+        "caixa": -13173443.52
+      },
+      {
+        "mes": "2026-03",
+        "empenhado": 263858885.49,
+        "liquidado": 215379784.53,
+        "pago": 195760153.85,
+        "receita": 189767264.18,
+        "caixa": -61405.5
+      },
+      {
+        "mes": "2026-04",
+        "empenhado": 200991685.24,
+        "liquidado": 201765884.89,
+        "pago": 217922232.51,
+        "receita": 178188828.37,
+        "caixa": -33562528.1
+      },
+      {
+        "mes": "2026-05",
+        "empenhado": 214518188.06,
+        "liquidado": 208684204.16,
+        "pago": 210756663.92,
+        "receita": 175854757.09,
+        "caixa": -28793741.11
+      },
+      {
+        "mes": "2026-06",
+        "empenhado": 216469611.41,
+        "liquidado": 232051450.37,
+        "pago": 220531080.04,
+        "receita": 197114403.21,
+        "caixa": -17357298.52
+      },
+      {
+        "mes": "2026-07",
+        "empenhado": 164486864.91,
+        "liquidado": 199866643.15,
+        "pago": 182486611.54,
+        "receita": 186860192.45,
+        "caixa": 9947346.77
+      },
+      {
+        "mes": "2026-08",
+        "empenhado": 175206661.05,
+        "liquidado": 195713937.04,
+        "pago": 193253698.57,
+        "receita": 196165055.4,
+        "caixa": 8559799.74
+      },
+      {
+        "mes": "2026-09",
+        "empenhado": 160308636.66,
+        "liquidado": 208732561.35,
+        "pago": 213743657.0,
+        "receita": 229591221.33,
+        "caixa": 21852190.23
+      },
+      {
+        "mes": "2026-10",
+        "empenhado": 5574763.61,
+        "liquidado": 40914372.5,
+        "pago": 35602812.65,
+        "receita": 87684538.75,
+        "caixa": 52536579.31
+      }
+    ]
+  },
+  "reconciliado": true,
+  "sem_cpf": true,
+  "versao": "20261024180408"
+}

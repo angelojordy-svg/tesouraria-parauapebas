@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Painel de Tesouraria de Parauapebas/PA: caixa, prazo médio de pagamento e valores em aberto por credor.">
+<title>Tesouraria — Parauapebas</title>
+<script>
+(function () {
+  try {
+    var p = localStorage.getItem("tesouraria-tema") || "system";
+    var m = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+    var t = p === "system" ? (m ? "dark" : "light") : p;
+    document.documentElement.dataset.theme = t;
+    document.documentElement.dataset.themePref = p;
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+    document.documentElement.dataset.themePref = "system";
+  }
+})();
+</script>
+<link rel="stylesheet" href="assets/tesouraria.css?v=20261024180408">
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="headline">
+      <div>
+        <h1>Tesouraria — Parauapebas</h1>
+        <div class="sub" id="hdrsub">Carregando…</div>
+      </div>
+      <div class="tema" role="group" aria-label="Tema">
+        <button type="button" data-pref="light" aria-pressed="false">Claro</button>
+        <button type="button" data-pref="dark" aria-pressed="false">Escuro</button>
+        <button type="button" data-pref="system" aria-pressed="true">Sistema</button>
+      </div>
+    </div>
+  </div>
+</header>
+<main class="wrap">
+  <section class="filtros" aria-label="Filtros">
+    <label>Entidade
+      <select id="f-ent"></select>
+    </label>
+    <label>Credor (nome ou CNPJ)
+      <input type="search" id="f-credor" placeholder="filtrar...">
+    </label>
+    <label>Piso (R$)
+      <select id="f-piso"></select>
+    </label>
+  </section>
+
+  <h2>Indicadores do período</h2>
+  <div class="grid kpis" id="kpis"></div>
+  <div class="note" id="kpisnota"></div>
+
+  <h2>Série mensal — receita × despesa paga</h2>
+  <div class="card"><div id="chart-desp"></div>
+    <div class="leg"><span><span class="dot" style="background:var(--blue)"></span>Receita arrecadada</span>
+      <span><span class="dot" style="background:var(--amber)"></span>Despesa paga</span></div>
+  </div>
+
+  <h2>Caixa do mês (receita − pagamentos)</h2>
+  <div class="card"><div id="chart-caixa"></div></div>
+
+  <h2>Rankings</h2>
+  <div class="grid ranks" id="rankings"></div>
+
+  <h2>Credores <span class="muted" id="cred-count"></span></h2>
+  <div class="scroll" id="tbl-credores"></div>
+  <div class="mais"><button type="button" id="cred-mais" class="btn">Carregar mais</button></div>
+
+  <h2>Empenhos — % executado e saldo <span class="muted" id="emp-count"></span></h2>
+  <div class="scroll tall" id="tbl-empenhos"></div>
+  <div class="mais"><button type="button" id="emp-mais" class="btn">Carregar mais</button></div>
+
+  <section class="card sobre" id="sobre">
+    <h2>Sobre os dados</h2>
+    <p>Período: <b id="sobre-periodo">—</b> · dados até <b id="sobre-ate">—</b> · gerado em <b id="sobre-gerado">—</b>.</p>
+    <p id="sobre-publico"></p>
+    <ul>
+      <li><b>Caixa</b> = receita arrecadada − pagamentos do período (fluxo, não saldo de abertura).</li>
+      <li><b>Em aberto (RPP)</b> = liquidado − pago; <b>não liquidado</b> = empenhado − liquidado.</li>
+      <li><b>Prazo médio</b> = prazo entre liquidação e pagamento, casado por empenho + credor em ordem FIFO (aproximação, não prazo contratual).</li>
+      <li>O empenho é agregado por número; o CSV do portal tem uma linha por movimento e repete os totais do empenho.</li>
+      <li>A lista completa de credores e empenhos fica no Portal da Transparência e no Painel Fiscal; este painel usa um recorte público para ficar leve.</li>
+      <li>Pessoa física aparece sem CPF/CNPJ completo; sequências de CPF são mascaradas.</li>
+    </ul>
+  </section>
+
+  <footer id="rodape"></footer>
+</main>
+<script src="dados/tesouraria.js?v=20261024180408"></script>
+<script src="assets/tesouraria.js?v=20261024180408"></script>
+</body>
+</html>
