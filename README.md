@@ -37,6 +37,12 @@ Job diário no PC do trabalho: baixa as séries, gera o JSON, monta o payload
 público enxuto (piso R$ 50 mil + top 100 empenhos por entidade), valida e faz
 commit/push. Se o portal falhar, a última versão boa permanece no ar.
 
+## Instalação / operação no PC do trabalho
+
+O motor e o guia de instalação ficam no repositório privado
+[tesouraria-motor](https://github.com/angelojordy-svg/tesouraria-motor) (acesso
+restrito). Clone-o no PC do trabalho e siga o `README`/`SKILL-tesouraria.md`.
+
 ## Painel Fiscal
 
 Este painel é um complemento do
