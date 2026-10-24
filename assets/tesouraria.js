@@ -143,7 +143,7 @@
     for (let g = 0; g <= 4; g++) {
       const v = max * g / 4, yy = y(v);
       s += `<line x1="${PL}" x2="${W - PR}" y1="${yy}" y2="${yy}" stroke="var(--axis)"/>`;
-      s += `<text x="${PL - 6}" y="${yy + 3}" font-size="11" fill="var(--axis-tx)" text-anchor="end">${brl(v)}</text>`;
+      s += `<text x="${PL - 6}" y="${yy + 3}" font-size="12" fill="var(--axis-tx)" text-anchor="end">${brl(v)}</text>`;
     }
     list.forEach((l, i) => {
       const x0 = PL + i * bw + (bw - group) / 2;
@@ -153,7 +153,7 @@
         const xx = x0 + j * each, hh = (H - PB) - y(v);
         s += `<rect x="${xx}" y="${y(v)}" width="${each - 1.5}" height="${hh}" fill="${colors[j]}" rx="1.5"><title>${l.mes} ${k}: ${brl(v)}</title></rect>`;
       });
-      s += `<text x="${PL + i * bw + bw / 2}" y="${H - PB + 15}" font-size="11" fill="var(--mut)" text-anchor="middle">${(l.mes || "").slice(5)}/${(l.mes || "").slice(2, 4)}</text>`;
+      s += `<text x="${PL + i * bw + bw / 2}" y="${H - PB + 15}" font-size="12" fill="var(--mut)" text-anchor="middle">${(l.mes || "").slice(5)}/${(l.mes || "").slice(2, 4)}</text>`;
     });
     s += "</svg>";
     return s;
@@ -171,7 +171,7 @@
     const bw = (W - PL - PR) / m, zero = y(0);
     let s = `<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img">`;
     s += `<line x1="${PL}" x2="${W - PR}" y1="${zero}" y2="${zero}" stroke="var(--zero)"/>`;
-    s += `<text x="${PL - 6}" y="${zero + 3}" font-size="11" fill="var(--axis-tx)" text-anchor="end">R$ 0</text>`;
+    s += `<text x="${PL - 6}" y="${zero + 3}" font-size="12" fill="var(--axis-tx)" text-anchor="end">R$ 0</text>`;
     const pts = [];
     list.forEach((l, i) => {
       if (l.caixa == null) return;
@@ -179,7 +179,7 @@
       pts.push(x + "," + yy);
       const top = Math.min(yy, zero), hh = Math.abs(yy - zero);
       s += `<rect x="${x - bw * 0.28}" y="${top}" width="${bw * 0.56}" height="${hh}" fill="${l.caixa >= 0 ? "var(--green)" : "var(--red)"}" rx="1.5"><title>${l.mes}: ${brl(l.caixa)}</title></rect>`;
-      s += `<text x="${x}" y="${H - PB + 15}" font-size="11" fill="var(--mut)" text-anchor="middle">${(l.mes || "").slice(5)}/${(l.mes || "").slice(2, 4)}</text>`;
+      s += `<text x="${x}" y="${H - PB + 15}" font-size="12" fill="var(--mut)" text-anchor="middle">${(l.mes || "").slice(5)}/${(l.mes || "").slice(2, 4)}</text>`;
     });
     s += `<polyline points="${pts.join(" ")}" fill="none" stroke="var(--line-pt)" stroke-width="1.6"/>`;
     s += "</svg>";

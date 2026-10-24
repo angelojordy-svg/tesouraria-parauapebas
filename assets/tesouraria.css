@@ -34,7 +34,7 @@ html[data-theme="dark"] {
   --card-solid: #0b1220;
   --bd: rgba(255, 255, 255, .10);
   --tx: #e8eefc;
-  --mut: #aebdd8;
+  --mut: #c3d0e6;
   --blue: #60a5fa;
   --green: #34d399;
   --red: #ef4444;
@@ -47,7 +47,7 @@ html[data-theme="dark"] {
   --head2: #1e1b4b;
   --h2: #c7d2fe;
   --axis: rgba(255, 255, 255, .12);
-  --axis-tx: #aebdd8;
+  --axis-tx: #c3d0e6;
   --zero: rgba(255, 255, 255, .25);
   --line-pt: #e8eefc;
   --shadow: 0 20px 60px rgba(0, 0, 0, .35);
@@ -121,7 +121,7 @@ html[data-theme="dark"] header .sub { color: #93a4c4; }
 .tema button[aria-pressed="true"] { background: #fff; color: #0f172a; box-shadow: 0 0 0 2px rgba(255,255,255,.45); }
 
 html[data-theme="dark"] .tema button[aria-pressed="true"] {
-  background: linear-gradient(92deg, var(--blue), var(--purple));
+  background: var(--blue);
   color: #04101f;
   box-shadow: 0 0 0 2px rgba(255,255,255,.35);
 }
