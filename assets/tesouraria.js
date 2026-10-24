@@ -31,6 +31,10 @@
   function dias(v) { return v == null ? "—" : v.toFixed(1) + " d"; }
   function pct(v) { return v == null ? "—" : v.toFixed(1) + "%"; }
   function sinal(v) { return v == null ? "" : (v >= 0 ? "pos" : "neg"); }
+  function fmtGerado(s) {
+    const m = String(s || "").match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/);
+    return m ? `${m[3]}/${m[2]}/${m[1]} ${m[4]}:${m[5]}` : String(s || "—").replace("T", " ");
+  }
   function ent() { return DATA.entidades ? DATA.entidades[sel] : null; }
 
   function casa(c) {
@@ -90,7 +94,7 @@
 
     const p = DATA.periodo || {};
     const ate = DATA.dados_ate ? ` · dados até ${DATA.dados_ate}` : "";
-    const gerado = String(DATA.gerado_em || "—").replace("T", " ");
+    const gerado = fmtGerado(DATA.gerado_em);
     $("hdrsub").textContent = `${p.inicio || "—"} a ${p.fim || "—"}${ate} · gerado em ${gerado}`;
     $("rodape").textContent = "Fonte: Portal da Transparência de Parauapebas (governotransparente.com.br) — empenho, liquidação, pagamento e receita arrecadada. Caixa = fluxo (receita − pagamentos do período).";
 
