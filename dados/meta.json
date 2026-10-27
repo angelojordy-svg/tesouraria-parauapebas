@@ -3,10 +3,10 @@
   "periodo": {
     "ano": 2026,
     "inicio": "01/01/2026",
-    "fim": "24/10/2026"
+    "fim": "27/10/2026"
   },
   "dados_ate": "23/10/2026",
-  "gerado_em": "2026-10-24T18:06:13",
+  "gerado_em": "2026-10-27T11:15:07",
   "publico": {
     "piso": 50000.0,
     "top_empenhos": 100,
@@ -111,5 +111,5 @@
   },
   "reconciliado": true,
   "sem_cpf": true,
-  "versao": "20261024182942"
+  "versao": "20261027111507"
 }
