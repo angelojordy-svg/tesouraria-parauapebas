@@ -6,7 +6,7 @@
     "fim": "04/11/2026"
   },
   "dados_ate": "03/11/2026",
-  "gerado_em": "2026-11-04T12:42:16",
+  "gerado_em": "2026-11-04T13:46:37",
   "publico": {
     "piso": 50000.0,
     "top_empenhos": 100,
@@ -125,5 +125,5 @@
   },
   "reconciliado": true,
   "sem_cpf": true,
-  "versao": "20261104124217"
+  "versao": "20261104134638"
 }

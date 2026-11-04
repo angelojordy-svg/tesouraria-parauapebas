@@ -17,6 +17,7 @@
   const ANULCACHE = {};
   let anulTipo = "todos";
   let anulPiso = 0;
+  let anulUg = "todos";
   let anulLimite = 50;
 
   const $ = (id) => document.getElementById(id);
@@ -68,6 +69,17 @@
     return ANULCACHE[sel];
   }
 
+  function popularAnulUg() {
+    const s = $("f-anul-ug");
+    if (!s) return;
+    const ugs = [...new Set(anulEventos().map((e) => e.ug).filter(Boolean))]
+      .sort((a, b) => a.localeCompare(b, "pt-BR"));
+    if (!ugs.includes(anulUg)) anulUg = "todos";
+    s.innerHTML = '<option value="todos">Todas</option>' +
+      ugs.map((u) => `<option value="${esc(u)}">${esc(u)}</option>`).join("");
+    s.value = anulUg;
+  }
+
   function casa(c) {
     if (!filtro) return true;
     const f = norm(filtro);
@@ -113,6 +125,7 @@
     s.value = sel;
     s.onchange = () => {
       sel = s.value; credLimite = 100; empLimite = 100; anulLimite = 50;
+      anulUg = "todos"; popularAnulUg();
       render();
       const pa = $("painel-anulacoes");
       if (pa && !pa.hidden) renderAnulacoes();
@@ -371,6 +384,7 @@
     const f = norm(filtro);
     const list = anulEventos().filter((e) => {
       if (anulTipo !== "todos" && e.tipo !== anulTipo) return false;
+      if (anulUg !== "todos" && e.ug !== anulUg) return false;
       if ((e.valor_anulado || 0) < anulPiso) return false;
       if (!f) return true;
       return norm(e.credor).includes(f) || norm(e.cnpj).includes(f) || norm(e.empenho).includes(f);
@@ -426,6 +440,10 @@
       p.value = "0";
       p.onchange = () => { anulPiso = Number(p.value) || 0; anulLimite = 50; renderTabelaAnulacoes(); };
     }
+
+    const ug = $("f-anul-ug");
+    if (ug) ug.onchange = () => { anulUg = ug.value; anulLimite = 50; renderTabelaAnulacoes(); };
+    popularAnulUg();
 
     const btn = $("anul-mais");
     if (btn) btn.onclick = () => { anulLimite += 50; renderTabelaAnulacoes(); };
