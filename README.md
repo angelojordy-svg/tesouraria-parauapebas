@@ -6,7 +6,9 @@ Municipal), com foco em **caixa** e **prazos de pagamento**:
 - caixa do exercício (receita arrecadada − pagamentos);
 - prazo médio entre liquidação e pagamento (FIFO por empenho + credor);
 - % pago/liquidado e R$ liquidado em aberto por credor;
-- rankings de prazo, percentual pago e valor em aberto.
+- rankings de prazo, percentual pago e valor em aberto;
+- **diário de anulações**: compara fotos diárias dos empenhos e mostra o que
+  desapareceu (exclusão) ou teve o valor reduzido (anulação parcial/total).
 
 **Site:** https://angelojordy-svg.github.io/tesouraria-parauapebas/
 
