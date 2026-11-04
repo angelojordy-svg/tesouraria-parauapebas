@@ -55,6 +55,8 @@ html[data-theme="dark"] {
 
 * { box-sizing: border-box; }
 
+[hidden] { display: none !important; }
+
 html, body { margin: 0; min-height: 100%; }
 
 body {
@@ -175,6 +177,47 @@ main { padding: 18px 22px 26px; }
 
 .filtros input[type="search"] { min-width: 240px; }
 
+.filtros.secundarios {
+  position: static;
+  box-shadow: none;
+  margin: 0 0 4px;
+  padding: 10px 12px;
+}
+
+.abas {
+  display: flex;
+  gap: 4px;
+  margin: 16px 0 0;
+  border-bottom: 1px solid var(--bd);
+  overflow-x: auto;
+}
+
+.abas button {
+  border: 0;
+  background: transparent;
+  color: var(--mut);
+  font: inherit;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 10px 14px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  border-radius: 8px 8px 0 0;
+  white-space: nowrap;
+}
+
+.abas button:hover { background: var(--hover); color: var(--tx); }
+
+.abas button[aria-selected="true"] {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+}
+
+.abas button:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
 h2 {
   font-size: 15px;
   margin: 30px 0 12px;
@@ -206,6 +249,20 @@ h2 {
 .pos { color: var(--green); }
 .neg { color: var(--red); }
 .muted { color: var(--mut); }
+
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--bd);
+  white-space: nowrap;
+}
+
+.badge.exclusao { color: var(--red); border-color: currentColor; }
+.badge.reducao { color: var(--amber); border-color: currentColor; }
+.badge.reaparecimento { color: var(--blue); border-color: currentColor; }
 
 .ranks { grid-template-columns: repeat(auto-fit, minmax(430px, 1fr)); }
 
@@ -343,6 +400,7 @@ footer { margin: 30px 0 10px; font-size: 11px; color: var(--mut); }
   header { background: #fff; color: #000; border-bottom: 1px solid #ccc; }
   header h1, header .sub { color: #000; }
   .tema, .filtros, .mais { display: none !important; }
+  .abas { display: none !important; }
   .scroll, .scroll.tall { max-height: none; overflow: visible; }
   .card { box-shadow: none; }
   th { position: static; }

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="Painel de Tesouraria de Parauapebas/PA: caixa, prazo médio de pagamento e valores em aberto por credor.">
+<meta name="description" content="Painel de Tesouraria de Parauapebas/PA: caixa, prazo médio de pagamento, valores em aberto por credor e diário de anulações de empenho.">
 <title>Tesouraria — Parauapebas</title>
 <script>
 (function () {
@@ -20,7 +20,7 @@
   }
 })();
 </script>
-<link rel="stylesheet" href="assets/tesouraria.css?v=20261104100045">
+<link rel="stylesheet" href="assets/tesouraria.css?v=20261104124217">
 </head>
 <body>
 <header>
@@ -51,47 +51,103 @@
     </label>
   </section>
 
-  <h2>Indicadores do período</h2>
-  <div class="grid kpis" id="kpis"></div>
-  <div class="note" id="kpisnota"></div>
+  <nav class="abas" role="tablist" aria-label="Seções do painel">
+    <button type="button" role="tab" id="aba-geral" data-aba="geral"
+            aria-controls="painel-geral" aria-selected="true">Visão geral</button>
+    <button type="button" role="tab" id="aba-anulacoes" data-aba="anulacoes"
+            aria-controls="painel-anulacoes" aria-selected="false">Diário de anulações</button>
+  </nav>
 
-  <h2>Série mensal — receita × despesa paga</h2>
-  <div class="card"><div id="chart-desp"></div>
-    <div class="leg"><span><span class="dot" style="background:var(--blue)"></span>Receita arrecadada</span>
-      <span><span class="dot" style="background:var(--amber)"></span>Despesa paga</span></div>
-  </div>
+  <section id="painel-geral" role="tabpanel" aria-labelledby="aba-geral">
+    <h2>Indicadores do período</h2>
+    <div class="grid kpis" id="kpis"></div>
+    <div class="note" id="kpisnota"></div>
 
-  <h2>Caixa do mês (receita − pagamentos)</h2>
-  <div class="card"><div id="chart-caixa"></div></div>
+    <h2>Série mensal — receita × despesa paga</h2>
+    <div class="card"><div id="chart-desp"></div>
+      <div class="leg"><span><span class="dot" style="background:var(--blue)"></span>Receita arrecadada</span>
+        <span><span class="dot" style="background:var(--amber)"></span>Despesa paga</span></div>
+    </div>
 
-  <h2>Rankings</h2>
-  <div class="grid ranks" id="rankings"></div>
+    <h2>Caixa do mês (receita − pagamentos)</h2>
+    <div class="card"><div id="chart-caixa"></div></div>
 
-  <h2>Credores <span class="muted" id="cred-count"></span></h2>
-  <div class="scroll" id="tbl-credores"></div>
-  <div class="mais"><button type="button" id="cred-mais" class="btn">Carregar mais</button></div>
+    <h2>Rankings</h2>
+    <div class="grid ranks" id="rankings"></div>
 
-  <h2>Empenhos — % executado e saldo <span class="muted" id="emp-count"></span></h2>
-  <div class="scroll tall" id="tbl-empenhos"></div>
-  <div class="mais"><button type="button" id="emp-mais" class="btn">Carregar mais</button></div>
+    <h2>Credores <span class="muted" id="cred-count"></span></h2>
+    <div class="scroll" id="tbl-credores"></div>
+    <div class="mais"><button type="button" id="cred-mais" class="btn">Carregar mais</button></div>
 
-  <section class="card sobre" id="sobre">
-    <h2>Sobre os dados</h2>
-    <p>Período: <b id="sobre-periodo">—</b> · dados até <b id="sobre-ate">—</b> · gerado em <b id="sobre-gerado">—</b>.</p>
-    <p id="sobre-publico"></p>
-    <ul>
-      <li><b>Caixa</b> = receita arrecadada − pagamentos do período (fluxo, não saldo de abertura).</li>
-      <li><b>Em aberto (RPP)</b> = liquidado − pago; <b>não liquidado</b> = empenhado − liquidado.</li>
-      <li><b>Prazo médio</b> = prazo entre liquidação e pagamento, casado por empenho + credor em ordem FIFO (aproximação, não prazo contratual).</li>
-      <li>O empenho é agregado por número; o CSV do portal tem uma linha por movimento e repete os totais do empenho.</li>
-      <li>A lista completa de credores e empenhos fica no Portal da Transparência e no Painel Fiscal; este painel usa um recorte público para ficar leve.</li>
-      <li>Pessoa física aparece sem CPF/CNPJ completo; sequências de CPF são mascaradas.</li>
-    </ul>
+    <h2>Empenhos — % executado e saldo <span class="muted" id="emp-count"></span></h2>
+    <div class="scroll tall" id="tbl-empenhos"></div>
+    <div class="mais"><button type="button" id="emp-mais" class="btn">Carregar mais</button></div>
+
+    <section class="card sobre" id="sobre">
+      <h2>Sobre os dados</h2>
+      <p>Período: <b id="sobre-periodo">—</b> · dados até <b id="sobre-ate">—</b> · gerado em <b id="sobre-gerado">—</b>.</p>
+      <p id="sobre-publico"></p>
+      <ul>
+        <li><b>Caixa</b> = receita arrecadada − pagamentos do período (fluxo, não saldo de abertura).</li>
+        <li><b>Em aberto (RPP)</b> = liquidado − pago; <b>não liquidado</b> = empenhado − liquidado.</li>
+        <li><b>Prazo médio</b> = prazo entre liquidação e pagamento, casado por empenho + credor em ordem FIFO (aproximação, não prazo contratual).</li>
+        <li>O empenho é agregado por número; o CSV do portal tem uma linha por movimento e repete os totais do empenho.</li>
+        <li><b>Diário de anulações</b>: a aba compara fotos diárias dos empenhos; um empenho que desaparece entra como exclusão.</li>
+        <li>A lista completa de credores e empenhos fica no Portal da Transparência e no Painel Fiscal; este painel usa um recorte público para ficar leve.</li>
+        <li>Pessoa física aparece sem CPF/CNPJ completo; sequências de CPF são mascaradas.</li>
+      </ul>
+    </section>
+  </section>
+
+  <section id="painel-anulacoes" role="tabpanel" aria-labelledby="aba-anulacoes" hidden>
+    <h2>Anulações de empenho — resumo</h2>
+    <div class="grid kpis" id="anul-kpis"></div>
+    <div class="note" id="anul-nota"></div>
+
+    <h2>Série mensal das anulações detectadas</h2>
+    <div class="card"><div id="chart-anul"></div>
+      <div class="leg">
+        <span><span class="dot" style="background:var(--red)"></span>Empenho excluído (sumiu da foto)</span>
+        <span><span class="dot" style="background:var(--amber)"></span>Anulação por redução (parcial ou total)</span>
+      </div>
+    </div>
+
+    <section class="filtros secundarios" aria-label="Filtros do diário de anulações">
+      <label>Tipo
+        <select id="f-anul-tipo">
+          <option value="todos">Todos</option>
+          <option value="exclusao">Excluídos</option>
+          <option value="reducao">Reduções / anulações</option>
+          <option value="reaparecimento">Reaparecidos</option>
+        </select>
+      </label>
+      <label>Piso da anulação (R$)
+        <select id="f-anul-piso"></select>
+      </label>
+    </section>
+
+    <h2>Diário de anulações <span class="muted" id="anul-count"></span></h2>
+    <div class="scroll tall" id="tbl-anulacoes"></div>
+    <div class="mais"><button type="button" id="anul-mais" class="btn">Carregar mais</button></div>
+
+    <section class="card sobre">
+      <h2>Sobre o diário de anulações</h2>
+      <p>O portal não avisa quando um empenho é excluído: ele simplesmente some do CSV.
+        Este diário compara a foto de cada execução com a foto anterior.</p>
+      <ul>
+        <li><b>Exclusão</b>: o empenho estava na foto anterior e não está na atual. O valor anterior entra como anulado.</li>
+        <li><b>Redução</b>: o empenho continua, mas o empenhado líquido caiu (anulação parcial; pode chegar a zero).</li>
+        <li><b>Reaparecimento</b>: um empenho marcado como excluído voltou — serve para detectar falso positivo ou reinclusão.</li>
+        <li><b>Chave</b>: número do empenho + documento/credor, porque o portal pode reutilizar o número depois de excluir um empenho.</li>
+        <li>O piso da aba filtra apenas a lista do diário; os KPIs e a série mensal consideram todos os eventos detectados.</li>
+        <li>É um controle de variação entre fotos, não o registro oficial de anulação do portal. O histórico completo fica no ledger interno.</li>
+      </ul>
+    </section>
   </section>
 
   <footer id="rodape"></footer>
 </main>
-<script src="dados/tesouraria.js?v=20261104100045"></script>
-<script src="assets/tesouraria.js?v=20261104100045"></script>
+<script src="dados/tesouraria.js?v=20261104124217"></script>
+<script src="assets/tesouraria.js?v=20261104124217"></script>
 </body>
 </html>

@@ -13,6 +13,11 @@
   let credLimite = 100;
   let empLimite = 100;
   const EMPCACHE = {};
+  const ANUL = DATA.anulacoes || null;
+  const ANULCACHE = {};
+  let anulTipo = "todos";
+  let anulPiso = 0;
+  let anulLimite = 50;
 
   const $ = (id) => document.getElementById(id);
   const norm = (s) => (s || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -36,6 +41,32 @@
     return m ? `${m[3]}/${m[2]}/${m[1]} ${m[4]}:${m[5]}` : String(s || "—").replace("T", " ");
   }
   function ent() { return DATA.entidades ? DATA.entidades[sel] : null; }
+
+  function fmtData(iso) {
+    const m = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+    return m ? `${m[3]}/${m[2]}/${m[1]}` : String(iso || "—");
+  }
+
+  function anulEnt() {
+    return (ANUL && ANUL.por_entidade) ? (ANUL.por_entidade[sel] || null) : null;
+  }
+
+  function anulEventos() {
+    if (!ANULCACHE[sel]) {
+      const a = anulEnt();
+      const E = a && a.eventos;
+      if (!E || !E.cols) {
+        ANULCACHE[sel] = [];
+      } else {
+        ANULCACHE[sel] = E.rows.map((r) => {
+          const o = {};
+          E.cols.forEach((c, i) => { o[c] = r[i]; });
+          return o;
+        });
+      }
+    }
+    return ANULCACHE[sel];
+  }
 
   function casa(c) {
     if (!filtro) return true;
@@ -80,7 +111,12 @@
     const s = $("f-ent");
     s.innerHTML = ENTIDADES.map((e) => `<option value="${e.slug}">${esc(e.nome)}</option>`).join("");
     s.value = sel;
-    s.onchange = () => { sel = s.value; credLimite = 100; empLimite = 100; render(); };
+    s.onchange = () => {
+      sel = s.value; credLimite = 100; empLimite = 100; anulLimite = 50;
+      render();
+      const pa = $("painel-anulacoes");
+      if (pa && !pa.hidden) renderAnulacoes();
+    };
 
     const base = Number(DATA.piso) || 0;
     const opcoes = [...new Set([base, 50000, 100000, 250000].filter((v) => v >= base && v > 0))].sort((a, b) => a - b);
@@ -90,7 +126,12 @@
     sp.value = String(piso);
     sp.onchange = () => { piso = Number(sp.value) || 0; credLimite = 100; render(); };
 
-    $("f-credor").oninput = (e) => { filtro = e.target.value; credLimite = 100; empLimite = 100; render(); };
+    $("f-credor").oninput = (e) => {
+      filtro = e.target.value; credLimite = 100; empLimite = 100; anulLimite = 50;
+      render();
+      const pa = $("painel-anulacoes");
+      if (pa && !pa.hidden) renderAnulacoes();
+    };
 
     const p = DATA.periodo || {};
     const ate = DATA.dados_ate ? ` · dados até ${DATA.dados_ate}` : "";
@@ -282,6 +323,114 @@
     if (btn) btn.parentElement.style.display = list.length > empLimite ? "block" : "none";
   }
 
+  /* ------------------------------------------------------------- anulações */
+  function renderAnulacoes() {
+    if (!$("anul-kpis")) return;
+    const a = anulEnt();
+    const nota = $("anul-nota");
+    if (!ANUL || !a) {
+      $("anul-kpis").innerHTML = "<div class='card muted'>Histórico ainda não iniciado. Ele começa na primeira execução diária com o novo motor.</div>";
+      if (nota) nota.textContent = "";
+      if ($("chart-anul")) $("chart-anul").innerHTML = "";
+      if ($("tbl-anulacoes")) $("tbl-anulacoes").innerHTML = "";
+      if ($("anul-count")) $("anul-count").textContent = "";
+      const btnVazio = $("anul-mais");
+      if (btnVazio) btnVazio.parentElement.style.display = "none";
+      return;
+    }
+    const k = a.kpis || {};
+    const cards = [
+      ["Anulado por exclusão", brl(k.exclusoes), int(k.n_exclusoes) + " empenho(s) sumiram", "neg"],
+      ["Anulação por redução", brl(k.reducoes), int(k.n_reducoes) + " empenho(s) reduzidos/anulados", ""],
+      ["Total anulado", brl(k.total), "exclusão + redução", "neg"],
+      ["Reaparecidos", int(k.n_reaparecimentos), "voltaram após sumir", "muted"],
+    ];
+    $("anul-kpis").innerHTML = cards.map(([l, v, d, cls]) =>
+      `<div class="card kpi"><div class="lbl">${l}</div><div class="val ${cls}">${v}</div><div class="det">${d}</div></div>`
+    ).join("");
+    const fotos = ANUL.fotos || [];
+    if (nota) {
+      const primeira = fotos.length ? fmtData(fotos[0].data) : "—";
+      const ultima = fotos.length ? fmtData(fotos[fotos.length - 1].data) : "—";
+      nota.textContent = `Diário construído comparando ${int(fotos.length)} foto(s) dos empenhos (${primeira} a ${ultima}). ` +
+        "Cada execução é uma fotografia; o que estava na anterior e sumiu na atual entra como exclusão.";
+    }
+    $("chart-anul").innerHTML = bars(a.mensal || [], ["exclusao", "reducao"], ["var(--red)", "var(--amber)"]);
+    renderTabelaAnulacoes();
+  }
+
+  function tipoAnulLabel(tipo, depois) {
+    if (tipo === "reducao" && (depois || 0) <= 0.005) return "Anulação total";
+    return { exclusao: "Exclusão", reducao: "Redução", reaparecimento: "Reapareceu" }[tipo] || tipo;
+  }
+
+  function renderTabelaAnulacoes() {
+    if (!$("tbl-anulacoes")) return;
+    const a = anulEnt();
+    if (!a) return;
+    const f = norm(filtro);
+    const list = anulEventos().filter((e) => {
+      if (anulTipo !== "todos" && e.tipo !== anulTipo) return false;
+      if ((e.valor_anulado || 0) < anulPiso) return false;
+      if (!f) return true;
+      return norm(e.credor).includes(f) || norm(e.cnpj).includes(f) || norm(e.empenho).includes(f);
+    });
+    list.sort((x, y) => {
+      if (x.data_foto !== y.data_foto) return x.data_foto < y.data_foto ? 1 : -1;
+      return (y.valor_anulado || 0) - (x.valor_anulado || 0);
+    });
+    const rows = list.slice(0, anulLimite).map((e) => `<tr>
+      <td>${fmtData(e.data_foto)}</td>
+      <td><span class="badge ${esc(e.tipo)}">${esc(tipoAnulLabel(e.tipo, e.valor_depois))}</span></td>
+      <td>${esc(e.empenho)}</td>
+      <td class="cut" title="${esc(e.credor)}">${esc(e.credor)}</td>
+      <td class="cut" title="${esc(e.ug || "")}">${esc(e.ug || "—")}</td>
+      <td class="num">${brl(e.valor_antes)}</td>
+      <td class="num neg">${brl(e.valor_anulado)}</td>
+      <td class="num">${brl(e.valor_depois)}</td>
+      <td class="num">${brl(e.liquidado)}</td>
+      <td class="num">${brl(e.pago)}</td></tr>`).join("");
+    $("tbl-anulacoes").innerHTML = `<table><thead><tr>
+      <th>Foto</th><th>Tipo</th><th>Empenho</th><th>Credor</th><th>Unidade gestora</th>
+      <th class="num">Valor antes</th><th class="num">Anulado</th><th class="num">Valor depois</th>
+      <th class="num">Liquidado</th><th class="num">Pago</th></tr></thead><tbody>${rows}</tbody></table>`;
+    $("anul-count").textContent = `${int(list.length)} evento(s)${filtro ? " (filtrado)" : ""} · mostrando ${int(Math.min(anulLimite, list.length))}`;
+    const btn = $("anul-mais");
+    if (btn) btn.parentElement.style.display = list.length > anulLimite ? "block" : "none";
+  }
+
+  function trocarAba(nome) {
+    const geral = $("painel-geral"), anul = $("painel-anulacoes");
+    if (!geral || !anul) return;
+    const ehAnul = nome === "anulacoes";
+    geral.hidden = ehAnul;
+    anul.hidden = !ehAnul;
+    const b1 = $("aba-geral"), b2 = $("aba-anulacoes");
+    if (b1) b1.setAttribute("aria-selected", String(!ehAnul));
+    if (b2) b2.setAttribute("aria-selected", String(ehAnul));
+    if (ehAnul) renderAnulacoes();
+  }
+
+  function initAbas() {
+    const b1 = $("aba-geral"), b2 = $("aba-anulacoes");
+    if (b1) b1.onclick = () => trocarAba("geral");
+    if (b2) b2.onclick = () => trocarAba("anulacoes");
+
+    const tipo = $("f-anul-tipo");
+    if (tipo) tipo.onchange = () => { anulTipo = tipo.value; anulLimite = 50; renderTabelaAnulacoes(); };
+
+    const p = $("f-anul-piso");
+    if (p) {
+      const opcoes = [0, 10000, 50000, 100000];
+      p.innerHTML = opcoes.map((v) => `<option value="${v}">${v ? brl(v) : "Todos"}</option>`).join("");
+      p.value = "0";
+      p.onchange = () => { anulPiso = Number(p.value) || 0; anulLimite = 50; renderTabelaAnulacoes(); };
+    }
+
+    const btn = $("anul-mais");
+    if (btn) btn.onclick = () => { anulLimite += 50; renderTabelaAnulacoes(); };
+  }
+
   /* ------------------------------------------------------------------ render */
   function render() {
     if (!ent()) {
@@ -307,6 +456,7 @@
   initBotoes();
   if (ENTIDADES.length) {
     initFiltros();
+    initAbas();
     render();
   } else {
     $("hdrsub").textContent = "Sem dados para exibir.";
