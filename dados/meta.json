@@ -3,33 +3,33 @@
   "periodo": {
     "ano": 2026,
     "inicio": "01/01/2026",
-    "fim": "09/11/2026"
+    "fim": "10/11/2026"
   },
-  "dados_ate": "06/11/2026",
-  "gerado_em": "2026-11-09T10:00:54",
+  "dados_ate": "09/11/2026",
+  "gerado_em": "2026-11-10T08:39:03",
   "publico": {
     "piso": 50000.0,
     "top_empenhos": 100,
-    "credores_total": 6027,
-    "empenhos_total": 27250
+    "credores_total": 6045,
+    "empenhos_total": 27466
   },
   "consolidado": {
     "kpis": {
-      "empenhado": 2162214681.2,
-      "liquidado": 1939084540.72,
-      "pago": 1842155491.88,
-      "a_pagar": 96929048.84,
-      "em_aberto": 96929048.84,
-      "nao_liquidado": 223130140.48,
-      "receita": 1969818308.64,
-      "pago_caixa": 1898544181.14,
-      "caixa": 127759358.14,
-      "pct_exec_empenho": 85.2
+      "empenhado": 2171231730.59,
+      "liquidado": 1959756163.28,
+      "pago": 1846732340.77,
+      "a_pagar": 113023822.51,
+      "em_aberto": 113023822.51,
+      "nao_liquidado": 211475567.31,
+      "receita": 1971863790.43,
+      "pago_caixa": 1903121030.03,
+      "caixa": 125338661.84,
+      "pct_exec_empenho": 85.1
     },
     "mensal": [
       {
         "mes": "2026-01",
-        "empenhado": 480089518.53,
+        "empenhado": 480052080.66,
         "liquidado": 143243413.38,
         "pago": 164162768.85,
         "receita": 227376862.78,
@@ -53,7 +53,7 @@
       },
       {
         "mes": "2026-04",
-        "empenhado": 200975179.24,
+        "empenhado": 200970108.64,
         "liquidado": 201765884.89,
         "pago": 208169085.03,
         "receita": 178188828.37,
@@ -61,7 +61,7 @@
       },
       {
         "mes": "2026-05",
-        "empenhado": 210691983.05,
+        "empenhado": 210691730.0,
         "liquidado": 208684204.16,
         "pago": 210724846.62,
         "receita": 175854757.09,
@@ -77,7 +77,7 @@
       },
       {
         "mes": "2026-07",
-        "empenhado": 162762817.77,
+        "empenhado": 162762791.17,
         "liquidado": 199866643.15,
         "pago": 182468646.66,
         "receita": 186860192.45,
@@ -85,7 +85,7 @@
       },
       {
         "mes": "2026-08",
-        "empenhado": 174814432.88,
+        "empenhado": 174811432.07,
         "liquidado": 195713937.04,
         "pago": 192953749.83,
         "receita": 196165055.4,
@@ -93,7 +93,7 @@
       },
       {
         "mes": "2026-09",
-        "empenhado": 168125781.22,
+        "empenhado": 168121604.34,
         "liquidado": 210414496.85,
         "pago": 217083787.97,
         "receita": 229905675.76,
@@ -101,29 +101,29 @@
       },
       {
         "mes": "2026-10",
-        "empenhado": 34696472.03,
-        "liquidado": 97418454.48,
-        "pago": 90763105.26,
-        "receita": 190272978.36,
-        "caixa": 105307646.45
+        "empenhado": 43665085.16,
+        "liquidado": 110559026.02,
+        "pago": 93146050.79,
+        "receita": 190717546.01,
+        "caixa": 103479939.37
       },
       {
         "mes": "2026-11",
-        "empenhado": 775473.69,
-        "liquidado": 10913557.92,
-        "pago": 3456944.92,
-        "receita": 1320682.19,
-        "caixa": -1653980.4
+        "empenhado": 873875.76,
+        "liquidado": 18444608.94,
+        "pago": 5650848.28,
+        "receita": 2921596.33,
+        "caixa": -2246969.62
       }
     ]
   },
   "anulacoes": {
-    "fotos": 8,
+    "fotos": 9,
     "primeira_foto": "2026-10-27",
-    "ultima_foto": "2026-11-09",
-    "eventos": 81
+    "ultima_foto": "2026-11-10",
+    "eventos": 97
   },
   "reconciliado": true,
   "sem_cpf": true,
-  "versao": "20261109100055"
+  "versao": "20261110083904"
 }
