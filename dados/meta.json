@@ -3,28 +3,28 @@
   "periodo": {
     "ano": 2026,
     "inicio": "01/01/2026",
-    "fim": "11/11/2026"
+    "fim": "12/11/2026"
   },
-  "dados_ate": "10/11/2026",
-  "gerado_em": "2026-11-11T08:30:36",
+  "dados_ate": "11/11/2026",
+  "gerado_em": "2026-11-12T08:09:55",
   "publico": {
     "piso": 50000.0,
     "top_empenhos": 100,
-    "credores_total": 6055,
-    "empenhos_total": 27655
+    "credores_total": 6074,
+    "empenhos_total": 27808
   },
   "consolidado": {
     "kpis": {
-      "empenhado": 2180325548.05,
-      "liquidado": 1965845422.11,
-      "pago": 1849134344.56,
-      "a_pagar": 116711077.55,
-      "em_aberto": 116711077.55,
-      "nao_liquidado": 214480125.94,
-      "receita": 1975226255.42,
-      "pago_caixa": 1905523033.82,
-      "caixa": 126422003.3,
-      "pct_exec_empenho": 84.8
+      "empenhado": 2192112271.33,
+      "liquidado": 1975271102.2,
+      "pago": 1857336582.62,
+      "a_pagar": 117934519.58,
+      "em_aberto": 117934519.58,
+      "nao_liquidado": 216841169.13,
+      "receita": 2013599865.19,
+      "pago_caixa": 1913725271.88,
+      "caixa": 156593375.01,
+      "pct_exec_empenho": 84.7
     },
     "mensal": [
       {
@@ -101,29 +101,29 @@
       },
       {
         "mes": "2026-10",
-        "empenhado": 52457555.46,
-        "liquidado": 114800310.08,
-        "pago": 94529806.17,
-        "receita": 190876015.38,
-        "caixa": 102377533.62
+        "empenhado": 63946794.62,
+        "liquidado": 124050706.84,
+        "pago": 100760781.3,
+        "receita": 190816243.79,
+        "caixa": 96086786.9
       },
       {
         "mes": "2026-11",
-        "empenhado": 1175222.92,
-        "liquidado": 20292583.71,
-        "pago": 6669096.69,
-        "receita": 6125591.95,
-        "caixa": -61222.41
+        "empenhado": 1472707.04,
+        "liquidado": 20467867.04,
+        "pago": 8640359.62,
+        "receita": 44558973.31,
+        "caixa": 36400896.02
       }
     ]
   },
   "anulacoes": {
-    "fotos": 10,
+    "fotos": 11,
     "primeira_foto": "2026-10-27",
-    "ultima_foto": "2026-11-11",
-    "eventos": 97
+    "ultima_foto": "2026-11-12",
+    "eventos": 101
   },
   "reconciliado": true,
   "sem_cpf": true,
-  "versao": "20261111083037"
+  "versao": "20261112080956"
 }
